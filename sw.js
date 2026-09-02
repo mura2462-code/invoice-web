@@ -1,11 +1,16 @@
 // オフライン動作用 Service Worker。index.html はネットワーク優先（更新を拾う）、
 // ハッシュ付き資産とフォントはキャッシュ優先。
-const VERSION = 'v1';
+const VERSION = 'v2';
 const CACHE = 'invoice-local-' + VERSION;
-const PRECACHE = ['./', './index.html', './manifest.webmanifest', './NotoSansJP-Regular.otf'];
+const PRECACHE = ['./', './index.html', './manifest.webmanifest', './font.json'];
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(PRECACHE)).then(() => self.skipWaiting()));
+  // フォントは分割配布（font.json の部品一覧）。一覧を読んでから全部品を先読みする
+  e.waitUntil(caches.open(CACHE).then(async c => {
+    await c.addAll(PRECACHE);
+    const meta = await fetch('./font.json').then(r => r.json()).catch(() => null);
+    if (meta) await c.addAll(meta.parts.map(n => './' + n));
+  }).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', (e) => {
   e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
