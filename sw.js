@@ -1,8 +1,8 @@
 // オフライン動作用 Service Worker。index.html はネットワーク優先（更新を拾う）、
 // ハッシュ付き資産とフォントはキャッシュ優先。
-const VERSION = 'v2';
+const VERSION = 'v3';
 const CACHE = 'invoice-local-' + VERSION;
-const PRECACHE = ['./', './index.html', './manifest.webmanifest', './font.json'];
+const PRECACHE = ['./', './index.html', './manifest.webmanifest', './font.json', './privacy.html'];
 
 self.addEventListener('install', (e) => {
   // フォントは分割配布（font.json の部品一覧）。一覧を読んでから全部品を先読みする

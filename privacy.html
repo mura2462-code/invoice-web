@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>プライバシーポリシー｜請求書アプリ</title>
+<meta name="description" content="請求書アプリのプライバシーポリシー。データは利用者の端末内と、利用者本人の Google ドライブのアプリ専用領域にだけ保存され、運営はデータを受け取りません。">
+<style>
+  :root { color-scheme: light dark; --ink: #1b2430; --sub: #5b6672; --bg: #f6f7f9; --card: #fff; --line: #dde2e8; --accent: #1f5f8b; }
+  @media (prefers-color-scheme: dark) { :root { --ink: #e7ecf2; --sub: #9aa6b2; --bg: #0e141b; --card: #151d26; --line: #263241; --accent: #7cc4ff; } }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif; line-height: 1.8; }
+  main { max-width: 720px; margin: 0 auto; padding: 24px 18px 60px; }
+  h1 { font-size: 22px; margin: 8px 0 18px; }
+  h2 { font-size: 17px; margin: 28px 0 8px; border-left: 4px solid var(--accent); padding-left: 10px; }
+  p, li { font-size: 15px; }
+  .meta { color: var(--sub); font-size: 13px; }
+  a { color: var(--accent); }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 4px 16px 12px; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<main>
+  <p class="meta"><a href="./">← アプリに戻る</a></p>
+  <h1>プライバシーポリシー</h1>
+  <p class="meta">請求書アプリ（invoice.webcraft.tokyo）　最終更新: 2026年9月3日</p>
+
+  <section>
+    <h2>基本方針</h2>
+    <p>このアプリは、請求書・見積書・納品書・領収書を利用者の端末の中で作るための道具です。<b>利用者が入力した内容（発行者の情報、取引先の情報、書類の内容）を、運営のサーバーに送信・保存することはありません。</b></p>
+  </section>
+
+  <section>
+    <h2>端末内に保存するデータ</h2>
+    <p>入力した内容は、利用者の端末のブラウザ内（IndexedDB）にだけ保存されます。ブラウザのデータ消去やアプリの削除で消えます。設定画面の「書き出し」で、利用者自身がファイルとして取り出せます。</p>
+  </section>
+
+  <section>
+    <h2>Google ドライブ同期（任意）</h2>
+    <p>利用者が設定画面で Google アカウントに接続した場合に限り、端末内のデータを<b>利用者本人の Google ドライブの「アプリ専用領域」</b>に保存し、複数の端末で同じデータを使えるようにします。</p>
+    <ul>
+      <li>データは利用者のブラウザから Google に直接送られます。運営のサーバーは経由せず、運営がその内容を受け取る・閲覧することはありません。</li>
+      <li>アプリ専用領域は、このアプリだけが読み書きできる領域です。Google の仕様により、利用者本人のドライブ画面にも、他のアプリにも表示されません。</li>
+      <li>利用する権限（スコープ）は次の2つだけです。<br>「Google ドライブのアプリ専用領域の表示・作成・削除（drive.appdata）」<br>「メールアドレスの表示（email）」。メールアドレスは、どのアカウントに接続しているかを画面に表示するためだけに端末内へ保存します。</li>
+      <li>接続の解除はいつでも設定画面からできます。「ドライブ上のデータも消す」を選ぶとアプリ専用領域のファイルを削除します。Google アカウントの「サードパーティのアプリとサービス」からアクセス権を取り消すこともできます。</li>
+      <li>Google API から取得した情報の利用は、<a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API サービスのユーザーデータに関するポリシー</a>（限定使用の要件を含む）に従います。取得した情報を広告や第三者への販売に使うことはありません。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>アクセス解析・Cookie</h2>
+    <p>アクセス解析ツールや広告用の Cookie は使用していません。オフラインでも動くようにするためのキャッシュ（Service Worker）だけを使います。</p>
+  </section>
+
+  <section>
+    <h2>運営者・お問い合わせ</h2>
+    <p>運営: webcraft（<a href="https://webcraft.tokyo/" target="_blank" rel="noopener">webcraft.tokyo</a>）<br>お問い合わせ: <a href="mailto:info@webcraft.tokyo">info@webcraft.tokyo</a></p>
+  </section>
+</main>
+</body>
+</html>
