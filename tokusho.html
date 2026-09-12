@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>特定商取引法に基づく表記｜請求書アプリ</title>
+<meta name="description" content="請求書アプリ（invoice.webcraft.tokyo）の有料プラン（月500円）についての、特定商取引法に基づく表記。">
+<meta name="robots" content="index,follow">
+<style>
+/* == jp-typo:start == 日本語改行の基盤（jp_typo/typo.css が正本。直接編集しない） */
+/* ============================================================
+   日本語改行の基盤スタイル（全案件共通・正本）
+   /Users/mura2462/daily-content-auto/jp_typo/typo.css
+   これを編集したら jp-wrap --sync-all で各案件へ再配布する。
+
+   前提となる実測事実（MDN browser-compat-data / 2026-08-20 確認）:
+     word-break:auto-phrase … Chrome119+ のみ。Safari は preview、Firefox 非対応。
+                              しかも lang="ja" が要る。→ iPhone では効かない。
+     text-wrap:pretty       … Chrome130+ / Safari26+ / Firefox 非対応
+     text-wrap:balance      … Chrome130+ / Safari17.5+ / Firefox124+
+                       … Chrome1 / Safari4 / Firefox1 = 全ブラウザ確実
+   よって「文節で折り返す」実体は （budoux が本文に埋め込む）が担い、
+   CSS は「wbr 以外の位置で切らせない」ことを担当する二段構えにする。
+   ============================================================ */
+
+/* 折り返し規則。詳細度0（:where）で全要素に敷く。
+   要素を列挙する方式だと div 直下のテキストが漏れて、そこだけ改行規則が変わる。
+   word-break 系は継承プロパティだが、途中の要素に直接指定があると継承が切れるため、
+   html への一括指定ではなく全要素へ当てる必要がある。
+   詳細度0なので、既存のページ側指定は一切上書きされない＝後方互換。 */
+:where(body, body *){
+  line-break: strict;        /* 行頭の句読点・閉じ括弧・小書き仮名を禁止（禁則） */
+  word-break: keep-all;      /* 日本語を任意位置で切らせない＝wbr の位置だけで折る */
+  overflow-wrap: break-word; /* 安全網。ただし anywhere と違い「文節が行に収まらない時」だけ切る。
+                                anywhere は改行機会を同格に扱うため貪欲に詰めて文節を割ってしまう */
+  text-wrap: pretty;         /* 対応環境では最終行1文字の孤立（рагged）を回避 */
+}
+
+/* 見出し・キャッチは行の長さを揃える（対応環境のみ。非対応でも劣化しない） */
+:where(h1,h2,h3,.lead,.catch,.hero h1,.jp-balance){
+  text-wrap: balance;
+}
+
+/* word-break:auto-phrase はあえて使わない。
+   Chrome 以外では無効なうえ、Chrome でも lang="ja" が無いと normal（＝どこでも切る）に
+   落ちる。ブラウザによって改行位置が変わる状態を作らないため、判断は budoux が埋めた
+    に一本化する。 */
+
+/* 行長（measure）。日本語は1行あたり全角35〜45字が可読のピーク。
+   PC幅で1行が伸びきるのを防ぐ。opt-in（.jp-measure）＋本文既定の両方を用意。 */
+.jp-measure{ max-width: 40em; }
+.jp-measure-center{ max-width: 40em; margin-inline: auto; }
+
+/* デバイス別の明示改行。使うのは「意味の切れ目をどうしても固定したい」時だけ。
+   .br-sp = スマホでのみ改行 / .br-tb = タブレットのみ / .br-pc = PCのみ
+   .sp-br / .pc-br は既存ページの旧クラス名との互換 */
+.br-sp,.sp-br,.br-tb,.br-pc,.pc-br{ display:none; }
+@media (max-width: 599px){  .br-sp,.sp-br{ display:inline; } }
+@media (min-width: 600px) and (max-width: 1023px){ .br-tb{ display:inline; } }
+@media (min-width: 1024px){ .br-pc,.pc-br{ display:inline; } }
+
+/* 逆に「その幅では改行させたくない」ときの打ち消し */
+@media (max-width: 599px){ .nobr-sp{ display:none; } }
+@media (min-width: 1024px){ .nobr-pc{ display:none; } }
+
+/* 電話番号のように途中で切られると意味が壊れるものは切らせない */
+.jp-nowrap,:where(a[href^="tel:"],.tel,.phone,.no-break){ white-space: nowrap; }
+
+/* 逆にメールアドレス・URL は長いので、どこで切ってでも溢れさせない */
+:where(a[href^="mailto:"],a[href^="http"],.jp-break,code,kbd,samp){ overflow-wrap: anywhere; }
+
+/* 数字＋単位・記号の分断防止（例: 500 件, 8:00〜20:00） */
+.jp-unit{ white-space: nowrap; }
+
+/* == jp-typo:end == */
+
+  :root { color-scheme: light dark; --ink: #1b2430; --sub: #5b6672; --bg: #f6f7f9; --card: #fff; --line: #dde2e8; --accent: #1f5f8b; }
+  @media (prefers-color-scheme: dark) { :root { --ink: #e7ecf2; --sub: #9aa6b2; --bg: #0e141b; --card: #151d26; --line: #263241; --accent: #7cc4ff; } }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif; line-height: 1.8; }
+  main { max-width: 720px; margin: 0 auto; padding: 24px 18px 60px; }
+  h1 { font-size: 22px; margin: 8px 0 18px; }
+  h2 { font-size: 17px; margin: 28px 0 8px; border-left: 4px solid var(--accent); padding-left: 10px; }
+  p, li { font-size: 15px; }
+  .meta { color: var(--sub); font-size: 13px; }
+  a { color: var(--accent); }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 4px 16px 12px; margin-bottom: 12px; }
+
+  table { width: 100%; border-collapse: collapse; margin: 8px 0 14px; }
+  th, td { border: 1px solid var(--line); padding: 10px 12px; font-size: 15px; text-align: left; vertical-align: top; }
+  th { width: 34%; background: var(--bg); font-weight: 600; white-space: nowrap; }
+  @media (max-width: 560px) { th, td { display: block; width: auto; border-bottom: none; } td { border-top: none; } tr { display: block; border-bottom: 1px solid var(--line); } table { border: none; } th { white-space: normal; } }
+  ul { padding-left: 1.2em; }
+</style>
+</head>
+<body>
+<main>
+  <p class="meta"><a href="./">← アプリに<wbr>戻る</a></p>
+  <h1>特定商取引法に<wbr>基づく<wbr>表記</h1>
+  <p class="meta">請求書アプリ<wbr>（invoice.webcraft.tokyo）　最終更新: <span class="jp-nowrap">2026年</span>9月<wbr><span class="jp-nowrap">12日</span></p>
+
+  <section>
+    <h2>有料に<wbr>なるのは<wbr>どこか</h2>
+    <p>書類<wbr>（請求書・<wbr>見積書・<wbr>納品書・<wbr>領収書など）<wbr>の<wbr>作成・<wbr>発行・<wbr>PDF の<wbr>保存、<wbr>Google ドライブとの<wbr>同期、<wbr>収支の<wbr>記録、<wbr>会計ソフトへの<wbr>書き出しは、<b>すべて<wbr>無料</b>です。<wbr>枚数の<wbr>制限も、<wbr>PDF への<wbr>透かしも<wbr>ありません。</p>
+    <p>有料なのは<b>レシートと<wbr>ファイルの<wbr>自動読み取り</b>だけです。<wbr>無料でも月 <span class="jp-nowrap">10 回</span><wbr>まで<wbr>お試し<wbr>いただけます。<wbr>月額プラン<wbr>（<span class="jp-nowrap">500円</span>・<wbr>税込）<wbr>に<wbr>すると、月 <span class="jp-nowrap">120 回</span><wbr>まで<wbr>読み込めます。</p>
+  </section>
+
+  <section>
+    <h2>事業者の<wbr>情報</h2>
+    <table>
+      <tr><th>事業者名</th><td>webcraft<wbr>（運営：村田柊介）</td></tr>
+      <tr><th>運営責任者</th><td>村田柊介</td></tr>
+      <tr><th>所在地</th><td>〒<span class="jp-nowrap">103-0027　</span><wbr>東京都中央区日本橋<wbr><span class="jp-nowrap">2丁目16-4</span>　remix日本橋 <span class="jp-nowrap">6階</span><br><span class="meta">業務は<wbr>オンラインで<wbr>対応しております。<wbr>ご来訪での<wbr>ご相談は<wbr>承っておりません。</span></td></tr>
+      <tr><th>電話番号</th><td><a href="tel:05017934977"><span class="jp-nowrap">050-1793-4977</span></a><br><span class="meta">受付時間：<span class="jp-nowrap">24時間</span><wbr>随時<wbr>受付<wbr>（土日祝含む）。<wbr>不在時は<wbr>留守番電話に<wbr>ご用件を<wbr>お残しいただくか、<wbr>メールにてお<wbr>問い合わせ<wbr>ください。<wbr>順次対応<wbr>いたします。</span></td></tr>
+      <tr><th>メールアドレス</th><td><a href="mailto:info@webcraft.tokyo"><span class="jp-break">info@webcraft.tokyo</span></a></td></tr>
+      <tr><th>適格請求書発行事業者</th><td>未登録<wbr>（<span class="jp-nowrap">2026年</span>9月時点）</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>料金と<wbr>支払い</h2>
+    <table>
+      <tr><th>サービス名</th><td>請求書アプリ by webcraft　月額プラン</td></tr>
+      <tr><th>販売価格</th><td>月額 <span class="jp-nowrap">500円</span><wbr>（税込）</td></tr>
+      <tr><th>商品代金以外の<wbr>必要料金</th><td>インターネットの<wbr>通信費<wbr>（お客様の<wbr>ご負担）。<wbr>それ以外の<wbr>手数料は<wbr>いただきません。</td></tr>
+      <tr><th>支払方法</th><td>クレジットカード／<wbr>デビットカード決済<wbr>（決済代行：Square）<br><span class="meta">カード情報は<wbr>アプリを<wbr>通らず、<wbr>Square が<wbr>直接お<wbr>預かりします。<wbr>当方は<wbr>カード番号を<wbr>保持しません。</span></td></tr>
+      <tr><th>支払時期</th><td>お申し込み日に<wbr>初回決済、<wbr>以降は<wbr>毎月<wbr>同日に<wbr>自動決済<wbr>（前払い）</td></tr>
+      <tr><th>役務の<wbr>提供時期</th><td>決済の<wbr>完了後、<wbr>アプリの<wbr>「設定 → プラン」<wbr>で<wbr>反映されしだい<wbr>ご利用<wbr>いただけます<wbr>（通常は<wbr>数分以内）。</td></tr>
+      <tr><th>動作環境</th><td>最新の<wbr>主要ブラウザ<wbr>（Chrome / Safari / Edge / Firefox 各最新版）、<wbr>スマートフォン<wbr>（iOS 15以上 / Android 9以上）。<wbr>データを<wbr>端末内に<wbr>保存するため、<wbr>ブラウザの<wbr>データ消去や<wbr>プライベートモードでは<wbr>ご利用いただけない<wbr>場合が<wbr>あります。</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>解約・<wbr>返金</h2>
+    <ul>
+      <li>解約は<wbr>いつでも<wbr>できます。<wbr>お支払いの<wbr>たびに Square から<wbr>届く<wbr>メールの<wbr>「サブスクリプションの<wbr>管理」<wbr>リンクから、<wbr>ご自身で<wbr>解約・<wbr>カードの<wbr>変更が<wbr>できます。<wbr>当方への<wbr>連絡は<wbr>不要です。<wbr>メールが<wbr>見つからない<wbr>場合は <a href="mailto:info@webcraft.tokyo"><span class="jp-break">info@webcraft.tokyo</span></a> まで<wbr>ご連絡いただければ、<wbr>当方で<wbr>解約の<wbr>手続きを<wbr>いたします。</li>
+      <li>次回の<wbr>決済日の<wbr>前日までに<wbr>手続きを<wbr>された<wbr>場合、<wbr>以降の<wbr>請求は<wbr>発生しません。</li>
+      <li>役務の<wbr>性質上、<wbr>お支払い<wbr>済みの<wbr>月額料金の<wbr>返金および<wbr>月途中の<wbr>日割り返金は<wbr>行いません。<wbr>解約後も、<wbr>その<wbr>月の<wbr>期間中は<wbr>引き続き<wbr>ご利用<wbr>いただけます。</li>
+      <li>当方の<wbr>責に<wbr>帰すべき<wbr>事由に<wbr>より<wbr>役務を<wbr>提供できなかった<wbr>場合は、<wbr>その<wbr>期間分を<wbr>返金いたします。</li>
+      <li>解約しても、<wbr>作成した<wbr>書類や<wbr>データは<wbr>端末内<wbr>（および<wbr>接続されている<wbr>場合は<wbr>お客様ご<wbr>自身の Google ドライブ）<wbr>に<wbr>残ります。<wbr>無料の<wbr>範囲の<wbr>機能は<wbr>そのまま<wbr>お使い<wbr>いただけます。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>その<wbr>ほか</h2>
+    <p>読み取り回数の<wbr>上限<wbr>（月 <span class="jp-nowrap">120 回</span>・<wbr><span class="jp-nowrap">1日</span> <span class="jp-nowrap">40 回</span>）は、<wbr>特定の<wbr>利用者に<wbr>よる<wbr>過大な<wbr>利用を<wbr>防ぐために<wbr>設けています。<wbr>上限に<wbr>達した<wbr>場合は、<wbr>翌月または<wbr>翌日に<wbr>回復します。</p>
+    <p>お客様が<wbr>入力された<wbr>書類の<wbr>内容を、<wbr>当方が<wbr>受け取ることは<wbr>ありません。<wbr>読み取りに<wbr>送られた<wbr>画像や<wbr>ファイルも<wbr>保存しません。<wbr>くわしくは<a href="./privacy.html">プライバシーポリシー</a>を<wbr>ご覧ください。</p>
+  </section>
+
+  <p class="meta"><a href="./">← アプリに<wbr>戻る</a>　｜　<a href="./privacy.html">プライバシーポリシー</a></p>
+</main>
+</body>
+</html>
