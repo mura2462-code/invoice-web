@@ -6,6 +6,73 @@
 <title>プライバシーポリシー｜請求書アプリ</title>
 <meta name="description" content="請求書アプリのプライバシーポリシー。データは利用者の端末内と、利用者本人の Google ドライブのアプリ専用領域にだけ保存され、運営はデータを受け取りません。">
 <style>
+/* == jp-typo:start == 日本語改行の基盤（jp_typo/typo.css が正本。直接編集しない） */
+/* ============================================================
+   日本語改行の基盤スタイル（全案件共通・正本）
+   /Users/mura2462/daily-content-auto/jp_typo/typo.css
+   これを編集したら jp-wrap --sync-all で各案件へ再配布する。
+
+   前提となる実測事実（MDN browser-compat-data / 2026-08-20 確認）:
+     word-break:auto-phrase … Chrome119+ のみ。Safari は preview、Firefox 非対応。
+                              しかも lang="ja" が要る。→ iPhone では効かない。
+     text-wrap:pretty       … Chrome130+ / Safari26+ / Firefox 非対応
+     text-wrap:balance      … Chrome130+ / Safari17.5+ / Firefox124+
+                       … Chrome1 / Safari4 / Firefox1 = 全ブラウザ確実
+   よって「文節で折り返す」実体は （budoux が本文に埋め込む）が担い、
+   CSS は「wbr 以外の位置で切らせない」ことを担当する二段構えにする。
+   ============================================================ */
+
+/* 折り返し規則。詳細度0（:where）で全要素に敷く。
+   要素を列挙する方式だと div 直下のテキストが漏れて、そこだけ改行規則が変わる。
+   word-break 系は継承プロパティだが、途中の要素に直接指定があると継承が切れるため、
+   html への一括指定ではなく全要素へ当てる必要がある。
+   詳細度0なので、既存のページ側指定は一切上書きされない＝後方互換。 */
+:where(body, body *){
+  line-break: strict;        /* 行頭の句読点・閉じ括弧・小書き仮名を禁止（禁則） */
+  word-break: keep-all;      /* 日本語を任意位置で切らせない＝wbr の位置だけで折る */
+  overflow-wrap: break-word; /* 安全網。ただし anywhere と違い「文節が行に収まらない時」だけ切る。
+                                anywhere は改行機会を同格に扱うため貪欲に詰めて文節を割ってしまう */
+  text-wrap: pretty;         /* 対応環境では最終行1文字の孤立（рагged）を回避 */
+}
+
+/* 見出し・キャッチは行の長さを揃える（対応環境のみ。非対応でも劣化しない） */
+:where(h1,h2,h3,.lead,.catch,.hero h1,.jp-balance){
+  text-wrap: balance;
+}
+
+/* word-break:auto-phrase はあえて使わない。
+   Chrome 以外では無効なうえ、Chrome でも lang="ja" が無いと normal（＝どこでも切る）に
+   落ちる。ブラウザによって改行位置が変わる状態を作らないため、判断は budoux が埋めた
+    に一本化する。 */
+
+/* 行長（measure）。日本語は1行あたり全角35〜45字が可読のピーク。
+   PC幅で1行が伸びきるのを防ぐ。opt-in（.jp-measure）＋本文既定の両方を用意。 */
+.jp-measure{ max-width: 40em; }
+.jp-measure-center{ max-width: 40em; margin-inline: auto; }
+
+/* デバイス別の明示改行。使うのは「意味の切れ目をどうしても固定したい」時だけ。
+   .br-sp = スマホでのみ改行 / .br-tb = タブレットのみ / .br-pc = PCのみ
+   .sp-br / .pc-br は既存ページの旧クラス名との互換 */
+.br-sp,.sp-br,.br-tb,.br-pc,.pc-br{ display:none; }
+@media (max-width: 599px){  .br-sp,.sp-br{ display:inline; } }
+@media (min-width: 600px) and (max-width: 1023px){ .br-tb{ display:inline; } }
+@media (min-width: 1024px){ .br-pc,.pc-br{ display:inline; } }
+
+/* 逆に「その幅では改行させたくない」ときの打ち消し */
+@media (max-width: 599px){ .nobr-sp{ display:none; } }
+@media (min-width: 1024px){ .nobr-pc{ display:none; } }
+
+/* 電話番号のように途中で切られると意味が壊れるものは切らせない */
+.jp-nowrap,:where(a[href^="tel:"],.tel,.phone,.no-break){ white-space: nowrap; }
+
+/* 逆にメールアドレス・URL は長いので、どこで切ってでも溢れさせない */
+:where(a[href^="mailto:"],a[href^="http"],.jp-break,code,kbd,samp){ overflow-wrap: anywhere; }
+
+/* 数字＋単位・記号の分断防止（例: 500 件, 8:00〜20:00） */
+.jp-unit{ white-space: nowrap; }
+
+/* == jp-typo:end == */
+
   :root { color-scheme: light dark; --ink: #1b2430; --sub: #5b6672; --bg: #f6f7f9; --card: #fff; --line: #dde2e8; --accent: #1f5f8b; }
   @media (prefers-color-scheme: dark) { :root { --ink: #e7ecf2; --sub: #9aa6b2; --bg: #0e141b; --card: #151d26; --line: #263241; --accent: #7cc4ff; } }
   html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif; line-height: 1.8; }
@@ -20,62 +87,62 @@
 </head>
 <body>
 <main>
-  <p class="meta"><a href="./">← アプリに戻る</a></p>
+  <p class="meta"><a href="./">← アプリに<wbr>戻る</a></p>
   <h1>プライバシーポリシー</h1>
-  <p class="meta">請求書アプリ（invoice.webcraft.tokyo）　最終更新: 2026年9月12日</p>
+  <p class="meta">請求書アプリ<wbr>（invoice.webcraft.tokyo）　最終更新: <span class="jp-nowrap">2026年</span>9月<wbr><span class="jp-nowrap">12日</span></p>
 
   <section>
     <h2>基本方針</h2>
-    <p>このアプリは、請求書・見積書・納品書・領収書を利用者の端末の中で作るための道具です。<b>利用者が入力した内容（発行者の情報、取引先の情報、書類の内容、支出の記録）を、運営のサーバーに送信・保存することはありません。</b>例外は、利用者が自分で選んで使う「レシート読み取り」（下記）だけです。</p>
+    <p>この<wbr>アプリは、<wbr>請求書・<wbr>見積書・<wbr>納品書・<wbr>領収書を<wbr>利用者の<wbr>端末の<wbr>中で<wbr>作るための<wbr>道具です。<b>利用者が<wbr>入力した<wbr>内容<wbr>（発行者の<wbr>情報、<wbr>取引先の<wbr>情報、<wbr>書類の<wbr>内容、<wbr>支出の<wbr>記録）を、<wbr>運営の<wbr>サーバーに<wbr>送信・<wbr>保存することは<wbr>ありません。</b>例外は、<wbr>利用者が<wbr>自分で<wbr>選んで<wbr>使う<wbr>「レシート読み<wbr>取り」<wbr>（下記）だけです。</p>
   </section>
 
   <section>
-    <h2>端末内に保存するデータ</h2>
-    <p>入力した内容は、利用者の端末のブラウザ内（IndexedDB）にだけ保存されます。ブラウザのデータ消去やアプリの削除で消えます。設定画面の「書き出し」で、利用者自身がファイルとして取り出せます。</p>
+    <h2>端末内に<wbr>保存する<wbr>データ</h2>
+    <p>入力した<wbr>内容は、<wbr>利用者の<wbr>端末の<wbr>ブラウザ内<wbr>（IndexedDB）<wbr>にだけ<wbr>保存されます。<wbr>ブラウザの<wbr>データ消去や<wbr>アプリの<wbr>削除で<wbr>消えます。<wbr>設定画面の<wbr>「書き出し」で、<wbr>利用者自身が<wbr>ファイルと<wbr>して<wbr>取り出せます。</p>
   </section>
 
   <section>
-    <h2>Google ドライブ同期（任意）</h2>
-    <p>利用者が設定画面で Google アカウントに接続した場合に限り、端末内のデータを<b>利用者本人の Google ドライブの「アプリ専用領域」</b>に保存し、複数の端末で同じデータを使えるようにします。</p>
+    <h2>Google ドライブ同期<wbr>（任意）</h2>
+    <p>利用者が<wbr>設定画面で Google アカウントに<wbr>接続した<wbr>場合に<wbr>限り、<wbr>端末内の<wbr>データを<b>利用者本人の Google ドライブの<wbr>「アプリ専用領域」</b>に<wbr>保存し、<wbr>複数の<wbr>端末で<wbr>同じ<wbr>データを<wbr>使えるようにします。</p>
     <ul>
-      <li>データは利用者のブラウザから Google に直接送られます。運営のサーバーは経由せず、運営がその内容を受け取る・閲覧することはありません。</li>
-      <li>アプリ専用領域は、このアプリだけが読み書きできる領域です。Google の仕様により、利用者本人のドライブ画面にも、他のアプリにも表示されません。</li>
-      <li>利用する権限（スコープ）は次の2つだけです。<br>「Google ドライブのアプリ専用領域の表示・作成・削除（drive.appdata）」<br>「メールアドレスの表示（email）」。メールアドレスは、どのアカウントに接続しているかを画面に表示するためだけに端末内へ保存します。</li>
-      <li>接続の解除はいつでも設定画面からできます。「ドライブ上のデータも消す」を選ぶとアプリ専用領域のファイルを削除します。Google アカウントの「サードパーティのアプリとサービス」からアクセス権を取り消すこともできます。</li>
-      <li>Google API から取得した情報の利用は、<a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API サービスのユーザーデータに関するポリシー</a>（限定使用の要件を含む）に従います。取得した情報を広告や第三者への販売に使うことはありません。</li>
+      <li>データは<wbr>利用者の<wbr>ブラウザから Google に<wbr>直接送られます。<wbr>運営の<wbr>サーバーは<wbr>経由せず、<wbr>運営が<wbr>その<wbr>内容を<wbr>受け取る・<wbr>閲覧することは<wbr>ありません。</li>
+      <li>アプリ専用領域は、<wbr>この<wbr>アプリだけが<wbr>読み<wbr>書きできる<wbr>領域です。<wbr>Google の<wbr>仕様に<wbr>より、<wbr>利用者本人の<wbr>ドライブ画面にも、<wbr>他の<wbr>アプリにも<wbr>表示されません。</li>
+      <li>利用する<wbr>権限<wbr>（スコープ）<wbr>は<wbr>次の<wbr>2つだけです。<br>「Google ドライブの<wbr>アプリ専用領域の<wbr>表示・<wbr>作成・<wbr>削除<wbr>（drive.appdata）」<br>「メールアドレスの<wbr>表示<wbr>（email）」。<wbr>メールアドレスは、<wbr>どの<wbr>アカウントに<wbr>接続しているかを<wbr>画面に<wbr>表示する<wbr>ためだけに<wbr>端末内へ<wbr>保存します。</li>
+      <li>接続の<wbr>解除は<wbr>いつでも<wbr>設定画面から<wbr>できます。<wbr>「ドライブ上の<wbr>データも<wbr>消す」<wbr>を<wbr>選ぶと<wbr>アプリ専用領域の<wbr>ファイルを<wbr>削除します。<wbr>Google アカウントの<wbr>「サードパーティの<wbr>アプリと<wbr>サービス」<wbr>から<wbr>アクセス権を<wbr>取り消すことも<wbr>できます。</li>
+      <li>Google API から<wbr>取得した<wbr>情報の<wbr>利用は、<a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API サービスの<wbr>ユーザーデータに<wbr>関する<wbr>ポリシー</a>（限定使用の<wbr>要件を<wbr>含む）<wbr>に<wbr>従います。<wbr>取得した<wbr>情報を<wbr>広告や<wbr>第三者への<wbr>販売に<wbr>使うことは<wbr>ありません。</li>
     </ul>
   </section>
 
   <section>
-    <h2>レシート読み取り（任意）</h2>
-    <p>支出の記録で「レシートを撮って読み取る」を使った場合に限り、撮影した画像を運営の受け口（サーバー）を通して AI（Anthropic 社の Claude API）に送り、日付・金額・店名を読み取ります。</p>
+    <h2>レシート読み取り<wbr>（任意）</h2>
+    <p>支出の<wbr>記録で<wbr>「レシートを<wbr>撮って<wbr>読み取る」<wbr>を<wbr>使った<wbr>場合に<wbr>限り、<wbr>撮影した<wbr>画像を<wbr>運営の<wbr>受け口<wbr>（サーバー）<wbr>を<wbr>通して AI<wbr>（Anthropic 社の Claude API）<wbr>に<wbr>送り、<wbr>日付・<wbr>金額・<wbr>店名を<wbr>読み取ります。</p>
     <ul>
-      <li>送るのは、そのとき撮った画像1枚だけです。画像も読み取り結果も、運営の受け口には保存しません（ログにも残しません）。</li>
-      <li>Anthropic 社は、API に送られた入力と出力を受領から30日以内に自動削除すると公表しています（同社プライバシーセンターの記載。2026年9月時点）。</li>
-      <li>この機能は Google アカウントで接続している間だけ使えます。誰からの送信かを確かめるためにメールアドレスを照合しますが、受け口側には保存しません。1人あたり・全体の1日の利用回数に上限があります。</li>
-      <li>読み取り結果は画面に入るだけで、保存するかどうかは利用者が確かめてから決めます。</li>
+      <li>送るのは、<wbr>そのとき<wbr>撮った<wbr>画像1枚だけです。<wbr>画像も<wbr>読み取り結果も、<wbr>運営の<wbr>受け口には<wbr>保存しません<wbr>（ログにも<wbr>残しません）。</li>
+      <li>Anthropic 社は、<wbr>API に<wbr>送られた<wbr>入力と<wbr>出力を<wbr>受領から<wbr><span class="jp-nowrap">30日</span><wbr>以内に<wbr>自動削除すると<wbr>公表しています<wbr>（同社プライバシーセンターの<wbr>記載。<wbr><span class="jp-nowrap">2026年</span>9月時点）。</li>
+      <li>この<wbr>機能は Google アカウントで<wbr>接続している<wbr>間だけ<wbr>使えます。<wbr>誰からの<wbr>送信かを<wbr>確かめるために<wbr>メールアドレスを<wbr>照合しますが、<wbr>受け口側には<wbr>保存しません。<wbr>1人あたり・<wbr>全体の<wbr><span class="jp-nowrap">1日</span>の<wbr>利用回数に<wbr>上限が<wbr>あります。</li>
+      <li>読み取り結果は<wbr>画面に<wbr>入るだけで、<wbr>保存するかどうかは<wbr>利用者が<wbr>確かめてから<wbr>決めます。</li>
     </ul>
   </section>
 
   <section>
-    <h2>有料プランの判定・決済（任意）</h2>
-    <p>有料プラン（月500円）に申し込まれた場合、決済は <b>Square（Block, Inc. および Square 株式会社）</b>のページで行われます。カード番号・氏名・住所などの決済情報はこのアプリを通らず、運営が受け取ることも保持することもありません。</p>
+    <h2>有料プランの<wbr>判定・<wbr>決済<wbr>（任意）</h2>
+    <p>有料プラン<wbr>（月<wbr><span class="jp-nowrap">500円</span>）<wbr>に<wbr>申し込まれた<wbr>場合、<wbr>決済は <b>Square<wbr>（Block, Inc. および Square 株式会社）</b>の<wbr>ページで<wbr>行われます。<wbr>カード番号・<wbr>氏名・<wbr>住所などの<wbr>決済情報は<wbr>この<wbr>アプリを<wbr>通らず、<wbr>運営が<wbr>受け取ることも<wbr>保持することも<wbr>ありません。</p>
     <ul>
-      <li>読み取り機能を使うとき、運営の受け口は「そのアカウントが有料かどうか」を調べるために、接続中の Google アカウントのメールアドレスを Square に照会します。照会するのは定期課金が有効かどうかだけで、決済の明細やカード情報は取得しません。</li>
-      <li>照会の結果（有料か無料か）は、同じ問い合わせを繰り返さないために、メールアドレスと組にして最大10分間だけ受け口に保持します。書類の内容は一切含みません。</li>
-      <li>解約・カードの変更は、Square から届くメールのリンクから利用者ご自身で手続きできます。運営はその画面に関与しません。</li>
-      <li>Square における個人情報の取り扱いは、同社のプライバシーポリシーに従います。</li>
+      <li>読み取り機能を<wbr>使うとき、<wbr>運営の<wbr>受け口は<wbr>「その<wbr>アカウントが<wbr>有料かどうか」<wbr>を<wbr>調べるために、<wbr>接続中の Google アカウントの<wbr>メールアドレスを Square に<wbr>照会します。<wbr>照会するのは<wbr>定期課金が<wbr>有効か<wbr>どうかだけで、<wbr>決済の<wbr>明細や<wbr>カード情報は<wbr>取得しません。</li>
+      <li>照会の<wbr>結果<wbr>（有料か<wbr>無料か）は、<wbr>同じ<wbr>問い合わせを<wbr>繰り返さないために、<wbr>メールアドレスと<wbr>組に<wbr>して<wbr>最大<wbr><span class="jp-nowrap">10分</span><wbr>間だけ<wbr>受け口に<wbr>保持します。<wbr>あわせて、<wbr>照会を<wbr>速く<wbr>するために、<wbr>メールアドレスと Square 側の<wbr>顧客番号・<wbr>注文番号の<wbr>対応を<wbr>受け口に<wbr>保持します<wbr>（顧客番号は<wbr>最大<wbr><span class="jp-nowrap">400日</span>、<wbr>注文番号は<wbr>最大<wbr><span class="jp-nowrap">60日</span>）。<wbr>いずれも<wbr>書類の<wbr>内容・<wbr>決済の<wbr>明細・<wbr>カード情報は<wbr>一切含みません。</li>
+      <li>解約・<wbr>カードの<wbr>変更は、<wbr>Square から<wbr>届く<wbr>メールの<wbr>リンクから<wbr>利用者ご自身で<wbr>手続きできます。<wbr>運営は<wbr>その<wbr>画面に<wbr>関与しません。</li>
+      <li>Square に<wbr>おける<wbr>個人情報の<wbr>取り扱いは、<wbr>同社の<wbr>プライバシーポリシーに<wbr>従います。</li>
     </ul>
   </section>
 
   <section>
-    <h2>アクセス解析・Cookie</h2>
-    <p>アクセス解析ツールや広告用の Cookie は使用していません。オフラインでも動くようにするためのキャッシュ（Service Worker）だけを使います。</p>
+    <h2>アクセス解析・<wbr>Cookie</h2>
+    <p>アクセス解析ツールや<wbr>広告用の Cookie は<wbr>使用していません。<wbr>オフラインでも<wbr>動くように<wbr>するための<wbr>キャッシュ<wbr>（Service Worker）だけを<wbr>使います。</p>
   </section>
 
   <section>
-    <h2>運営者・お問い合わせ</h2>
-    <p>運営: webcraft（<a href="https://webcraft.tokyo/" target="_blank" rel="noopener">webcraft.tokyo</a>）<br>お問い合わせ: <a href="mailto:info@webcraft.tokyo">info@webcraft.tokyo</a></p>
+    <h2>運営者・<wbr>お問い合わせ</h2>
+    <p>運営: webcraft<wbr>（<a href="https://webcraft.tokyo/" target="_blank" rel="noopener">webcraft.tokyo</a>）<br>お問い合わせ: <a href="mailto:info@webcraft.tokyo"><span class="jp-break">info@webcraft.tokyo</span></a></p>
   </section>
 </main>
 </body>
