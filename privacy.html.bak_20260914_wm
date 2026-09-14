@@ -128,7 +128,7 @@
     <h2>有料プランの<wbr>判定・<wbr>決済<wbr>（任意）</h2>
     <p>有料プラン<wbr>（月<wbr><span class="jp-nowrap">500円</span>）<wbr>に<wbr>申し込まれた<wbr>場合、<wbr>決済は <b>Square<wbr>（Block, Inc. および Square 株式会社）</b>の<wbr>ページで<wbr>行われます。<wbr>カード番号・<wbr>氏名・<wbr>住所などの<wbr>決済情報は<wbr>この<wbr>アプリを<wbr>通らず、<wbr>運営が<wbr>受け取ることも<wbr>保持することも<wbr>ありません。</p>
     <ul>
-      <li>読み取り機能を<wbr>使うとき、<wbr>および請求書の<wbr>発行数が<wbr>無料の<wbr>範囲<wbr>（月 10 通）<wbr>を<wbr>超えるとき、<wbr>PDF を<wbr>作るとき<wbr>（透かしの<wbr>有無を<wbr>決めるため）、<wbr>プランを<wbr>表示するとき、<wbr>運営の<wbr>受け口は<wbr>「その<wbr>アカウントが<wbr>有料かどうか」<wbr>を<wbr>調べるために、<wbr>接続中の Google アカウントの<wbr>メールアドレスを Square に<wbr>照会します。<wbr>照会するのは<wbr>定期課金が<wbr>有効か<wbr>どうかだけで、<wbr>決済の<wbr>明細や<wbr>カード情報は<wbr>取得しません。</li>
+      <li>読み取り機能を<wbr>使うとき、<wbr>および請求書の<wbr>発行数が<wbr>無料の<wbr>範囲<wbr>（月 10 通）<wbr>を<wbr>超えるときや<wbr>プランを<wbr>表示するとき、<wbr>運営の<wbr>受け口は<wbr>「その<wbr>アカウントが<wbr>有料かどうか」<wbr>を<wbr>調べるために、<wbr>接続中の Google アカウントの<wbr>メールアドレスを Square に<wbr>照会します。<wbr>照会するのは<wbr>定期課金が<wbr>有効か<wbr>どうかだけで、<wbr>決済の<wbr>明細や<wbr>カード情報は<wbr>取得しません。</li>
       <li>照会の<wbr>結果<wbr>（有料か<wbr>無料か）は、<wbr>同じ<wbr>問い合わせを<wbr>繰り返さないために、<wbr>メールアドレスと<wbr>組に<wbr>して<wbr>最大<wbr><span class="jp-nowrap">10分</span><wbr>間だけ<wbr>受け口に<wbr>保持します。<wbr>あわせて、<wbr>照会を<wbr>速く<wbr>するために、<wbr>メールアドレスと Square 側の<wbr>顧客番号・<wbr>注文番号の<wbr>対応を<wbr>受け口に<wbr>保持します<wbr>（顧客番号は<wbr>最大<wbr><span class="jp-nowrap">400日</span>、<wbr>注文番号は<wbr>最大<wbr><span class="jp-nowrap">60日</span>）。<wbr>いずれも<wbr>書類の<wbr>内容・<wbr>決済の<wbr>明細・<wbr>カード情報は<wbr>一切含みません。</li>
       <li>解約・<wbr>カードの<wbr>変更は、<wbr>Square から<wbr>届く<wbr>メールの<wbr>リンクから<wbr>利用者ご自身で<wbr>手続きできます。<wbr>運営は<wbr>その<wbr>画面に<wbr>関与しません。</li>
       <li>Square に<wbr>おける<wbr>個人情報の<wbr>取り扱いは、<wbr>同社の<wbr>プライバシーポリシーに<wbr>従います。</li>
