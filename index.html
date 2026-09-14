@@ -14,7 +14,75 @@
 <title>請求書アプリ by webcraft</title>
 <meta name="application-name" content="請求書アプリ by webcraft">
 <meta name="description" content="請求書アプリ by webcraft ― 請求書・見積書・納品書・領収書をスマホで作って送れるアプリ。">
-  <script type="module" crossorigin src="./app.CK8s1ETc.js"></script>
+<style>
+/* == jp-typo:start == 日本語改行の基盤（jp_typo/typo.css が正本。直接編集しない） */
+/* ============================================================
+   日本語改行の基盤スタイル（全案件共通・正本）
+   /Users/mura2462/daily-content-auto/jp_typo/typo.css
+   これを編集したら jp-wrap --sync-all で各案件へ再配布する。
+
+   前提となる実測事実（MDN browser-compat-data / 2026-08-20 確認）:
+     word-break:auto-phrase … Chrome119+ のみ。Safari は preview、Firefox 非対応。
+                              しかも lang="ja" が要る。→ iPhone では効かない。
+     text-wrap:pretty       … Chrome130+ / Safari26+ / Firefox 非対応
+     text-wrap:balance      … Chrome130+ / Safari17.5+ / Firefox124+
+                       … Chrome1 / Safari4 / Firefox1 = 全ブラウザ確実
+   よって「文節で折り返す」実体は （budoux が本文に埋め込む）が担い、
+   CSS は「wbr 以外の位置で切らせない」ことを担当する二段構えにする。
+   ============================================================ */
+
+/* 折り返し規則。詳細度0（:where）で全要素に敷く。
+   要素を列挙する方式だと div 直下のテキストが漏れて、そこだけ改行規則が変わる。
+   word-break 系は継承プロパティだが、途中の要素に直接指定があると継承が切れるため、
+   html への一括指定ではなく全要素へ当てる必要がある。
+   詳細度0なので、既存のページ側指定は一切上書きされない＝後方互換。 */
+:where(body, body *){
+  line-break: strict;        /* 行頭の句読点・閉じ括弧・小書き仮名を禁止（禁則） */
+  word-break: keep-all;      /* 日本語を任意位置で切らせない＝wbr の位置だけで折る */
+  overflow-wrap: break-word; /* 安全網。ただし anywhere と違い「文節が行に収まらない時」だけ切る。
+                                anywhere は改行機会を同格に扱うため貪欲に詰めて文節を割ってしまう */
+  text-wrap: pretty;         /* 対応環境では最終行1文字の孤立（рагged）を回避 */
+}
+
+/* 見出し・キャッチは行の長さを揃える（対応環境のみ。非対応でも劣化しない） */
+:where(h1,h2,h3,.lead,.catch,.hero h1,.jp-balance){
+  text-wrap: balance;
+}
+
+/* word-break:auto-phrase はあえて使わない。
+   Chrome 以外では無効なうえ、Chrome でも lang="ja" が無いと normal（＝どこでも切る）に
+   落ちる。ブラウザによって改行位置が変わる状態を作らないため、判断は budoux が埋めた
+    に一本化する。 */
+
+/* 行長（measure）。日本語は1行あたり全角35〜45字が可読のピーク。
+   PC幅で1行が伸びきるのを防ぐ。opt-in（.jp-measure）＋本文既定の両方を用意。 */
+.jp-measure{ max-width: 40em; }
+.jp-measure-center{ max-width: 40em; margin-inline: auto; }
+
+/* デバイス別の明示改行。使うのは「意味の切れ目をどうしても固定したい」時だけ。
+   .br-sp = スマホでのみ改行 / .br-tb = タブレットのみ / .br-pc = PCのみ
+   .sp-br / .pc-br は既存ページの旧クラス名との互換 */
+.br-sp,.sp-br,.br-tb,.br-pc,.pc-br{ display:none; }
+@media (max-width: 599px){  .br-sp,.sp-br{ display:inline; } }
+@media (min-width: 600px) and (max-width: 1023px){ .br-tb{ display:inline; } }
+@media (min-width: 1024px){ .br-pc,.pc-br{ display:inline; } }
+
+/* 逆に「その幅では改行させたくない」ときの打ち消し */
+@media (max-width: 599px){ .nobr-sp{ display:none; } }
+@media (min-width: 1024px){ .nobr-pc{ display:none; } }
+
+/* 電話番号のように途中で切られると意味が壊れるものは切らせない */
+.jp-nowrap,:where(a[href^="tel:"],.tel,.phone,.no-break){ white-space: nowrap; }
+
+/* 逆にメールアドレス・URL は長いので、どこで切ってでも溢れさせない */
+:where(a[href^="mailto:"],a[href^="http"],.jp-break,code,kbd,samp){ overflow-wrap: anywhere; }
+
+/* 数字＋単位・記号の分断防止（例: 500 件, 8:00〜20:00） */
+.jp-unit{ white-space: nowrap; }
+
+/* == jp-typo:end == */
+</style>
+  <script type="module" crossorigin src="./app.BW7sEP9t.js"></script>
   <link rel="modulepreload" crossorigin href="./chunk.pdf-lib-standard-fonts.BOyd5zyS.js">
   <link rel="modulepreload" crossorigin href="./chunk.base64-js.CzMSUrDr.js">
   <link rel="modulepreload" crossorigin href="./chunk.ieee754.vIlwft-x.js">
@@ -46,7 +114,7 @@
   <link rel="modulepreload" crossorigin href="./chunk.air-datepicker.jkWWUooO.js">
   <link rel="modulepreload" crossorigin href="./chunk.date-fns.CMC1x5jl.js">
   <link rel="modulepreload" crossorigin href="./chunk.pdfme-schemas.3aj2QAGK.js">
-  <link rel="stylesheet" crossorigin href="./index.BwLOCUog.css">
+  <link rel="stylesheet" crossorigin href="./index.B_lrdQa4.css">
 </head>
 <body>
 <header class="top" id="topbar">
@@ -60,6 +128,7 @@
   </nav>
 </header>
 <main id="app"><h1 style="padding:24px 24px 0;font-size:1.1rem">請求書アプリ by webcraft</h1><p class="muted" style="padding:8px 24px">読み込み中…</p></main>
+<footer class="site-foot"><div>請求書アプリ by webcraft</div><div><a href="./privacy.html">プライバシーポリシー</a>　<a href="./tokusho.html">特定商取引法に<wbr>基づく<wbr>表記</a>　<a href="https://webcraft.tokyo/">運営：webcraft</a></div></footer>
 <div id="toast" class="toast" hidden></div>
 </body>
 </html>
